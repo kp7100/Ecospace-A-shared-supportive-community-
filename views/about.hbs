@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/todo.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: url("https://images.unsplash.com/photo-1528460033278-a6ba57020470?q=80&w=3435&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ecospace</a>
+            </div>
+        
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li class="active"><a href="/about">ToDo</a></li>
+             <!--   <li><a href="/chat">Chat</a></li> -->
+                {{#if id}}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My matches <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">By Birthday</a></li>
+                            <li><a href="#">By Interests</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Chat rooms <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {{#if user.interests.length}}
+                                {{#each user.interests}}
+                                    <li><a href="#">{{this}}</a></li>
+                                {{/each}}
+                            {{/if}}
+                        </ul>
+                    </li>
+                {{/if}}
+            </ul>
+            {{#if id}}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/logout">Log out <i class="fas fa-sign-out-alt"></i></a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/profile">Profile <i class="fas fa-user-edit"></i></a></li>
+                </ul>
+            {{else}}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/signup">Sign up <i class="fas fa-user-plus"></i></a></li>
+                    <li><a href="/login">Login <i class="fa fa-user"></i></a></li>
+                </ul>
+            {{/if}}
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="jumbotron">
+            <p> Add Tasks that you would like to get done with.</p>
+        </div>
+    </div>
+<!-- todo list -->
+<div class="container mt-4">
+  <h3 class="text-center-todo">My To-Do</h3>
+  <div class="input-group mb-3">
+    <input type="text" id="taskInput" class="form-control" placeholder="Enter a new task" />
+    <button class="btn btn-primary" id="addTaskBtn">Add Task</button>
+  </div>
+  <ul id="taskList" class="list-group"></ul>
+</div>
+
+
+{{!-- Set up font awesome kit --}}
+<script src="https://kit.fontawesome.com/27610e4d72.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+<script src="/js/todo.js"></script>
+</body>
+</html>

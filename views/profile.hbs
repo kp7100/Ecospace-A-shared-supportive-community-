@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.26.0/slimselect.min.css" rel="stylesheet"></link>
+    <style>
+        body {
+            background: url("https://images.unsplash.com/photo-1528460033278-a6ba57020470?q=80&w=3435&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ecospace</a>
+            </div>
+        
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">ToDo</a></li>
+             <!--       <li><a href="/chat">Chat</a></li>  -->
+                    {{#if id}}
+                    {{#if view}}
+                        <li class="active" class="dropdown">
+                    {{else}}
+                        <li class="dropdown">
+                    {{/if}}
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My matches <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/birthday-matches">By Birthday</a></li>
+                            <li><a href="/interests-matches">By Interests</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Chat rooms <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {{#if user.interests.length}}
+                                {{#each user.interests}}
+                                    <li><a href="chatRooms?room={{this}}">{{this}}</a></li>
+                                {{/each}}
+                            {{/if}}
+                        </ul>
+                    </li>
+                    {{/if}}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {{#unless view}}
+                        <li class="active"><a href="/profile">Profile <i class="fas fa-user-edit"></i></a></li>
+                    {{else}}
+                        <li><a href="/profile">Profile <i class="fas fa-user-edit"></i></a></li>
+                    {{/unless}}
+                    <li><a href="/logout">Log out <i class="fas fa-sign-out-alt"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row profile">
+            <div class="col-xs-12 col-md-6">
+                <a href="#" class="thumbnail">
+                    <img src = {{profilePic}}>
+                </a>
+                {{#unless view}}
+                    <form action="/uploads" method="POST" enctype="multipart/form-data">
+                        <input type="file" name="profilePic">
+                        <br>
+                        <button type="submit" class="btn btn-primary">Upload pic</button>
+                    </form>
+                {{/unless}}
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="user-info"><strong>Username:</strong> {{username}}</div>
+                <!--<div class="user-info"><strong>Email:</strong> {{email}}</div> -->
+                
+                <div class="user-info"><strong>Birthday:</strong> {{birthday}}</div>
+                
+                <div class="user-info">
+                    {{#if interests.length}}
+                        <strong>Interests:</strong>
+                        {{#each interests}}
+                            <button class="btn btn-info">{{this}}</button>
+                        {{/each}}
+                    {{/if}}
+                    {{#unless view}}
+                        <div>
+                            <button onclick="displayForm(this)" class="btn btn-default"><i class="fas fa-user-edit"> Edit interests</i></button>
+                        </div>
+                    {{/unless}}
+                </div>
+                <form id="edit" action="/profile" method="POST"></form>
+            </div>
+        </div>
+    </div>
+
+{{!-- Set up font awesome kit --}}
+<script src="https://kit.fontawesome.com/27610e4d72.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.26.0/slimselect.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+<script>
+    function displayForm(elem) {
+        elem.remove();
+        document.getElementById('edit').innerHTML = 
+        `<select id="multiple" name="profile" multiple>
+                <option value="Fitness">Fitness</option>
+                <option value="Mental_Health">Mental Health</option>
+                <option value="Life">Life</option>
+                <option value="Coding">Coding</option>
+                <option value="Language learning">Language learning</option>
+                <option value="Traveling">Traveling</option>
+                <option value="Sports">Sports</option>
+        </select>
+        <div class="user-info"><button type="submit" class="btn btn-primary">Submit</button></div>`;
+
+        new SlimSelect({
+            select: '#multiple'
+        });
+    }
+</script>
+</body>
+</html>
+
+
